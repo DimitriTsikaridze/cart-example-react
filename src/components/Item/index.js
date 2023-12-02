@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../contexts/CartContext";
 import "./item.css";
 
 const Item = ({ itemData }) => {
-  const { addToCart } = useCart();
+  const { addToCart, removeFromCart } = useCart();
+  const [count, setCount] = useState(0);
 
   const handleAddToCart = () => {
     addToCart(itemData);
+    setCount(count + 1);
   };
+
+  const handleDeleteToCart = () => {
+    if (count === 0) return;
+    removeFromCart(itemData.id);
+    setCount((v) => v - 1);
+  };
+
+  // Calculate the total price for this product
+  const productTotalPrice = itemData.price * count;
 
   return (
     <div className="item">
@@ -27,11 +38,15 @@ const Item = ({ itemData }) => {
         {itemData.price}$
       </p>
       <p>
-        <input type="number" className="item-price" defaultValue={1} min={1} />
+        <input type="number" className="item-price" value={count} readOnly />
       </p>
       <p>
         <button onClick={handleAddToCart}>Add to cart</button>
       </p>
+      <p>
+        <button onClick={handleDeleteToCart}>Delete Product</button>
+      </p>
+      <p>Product total price: ${productTotalPrice}</p>
     </div>
   );
 };

@@ -39,12 +39,12 @@ const mockData = [
 ];
 
 const App = () => {
-  const { totalPrice } = useCart();
+  const { getTotalPrice } = useCart();
 
   return (
     <>
       <ItemList data={mockData} />
-      <p>Total Price: {totalPrice}</p>
+      <p>Total Price: {getTotalPrice()}$</p>
       <Cart />
     </>
   );
